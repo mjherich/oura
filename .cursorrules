@@ -1,0 +1,20 @@
+# Peewee Model Rules
+[*.py]
+# Rule: Model classes should have Meta class with snake_case plural table names
+# Example: class User -> table_name = 'users'
+#         class ActivitySummary -> table_name = 'activity_summaries'
+pattern = "class (?P<model_name>[A-Z][a-zA-Z]+)\(BaseModel\):(?![^}]*table_name)"
+message = "Peewee models should include a Meta class with table_name defined in snake_case plural form"
+
+# Rule: Ensure table_name is in snake_case
+pattern = "table_name = '[a-z0-9]+(?:_[a-z0-9]+)*s?'"
+message = "table_name should be in snake_case and typically plural"
+
+# Rule: Primary key fields should end with _id
+pattern = "(?P<field_name>[a-z_]+) = (?:Auto|Char|Integer)Field\(primary_key=True\)"
+validate = "field_name.endswith('_id')"
+message = "Primary key fields should end with _id"
+
+# Rule: ForeignKeyField should use snake_case field names
+pattern = "[a-z_]+ = ForeignKeyField\([A-Za-z]+\)"
+message = "ForeignKey field names should be in snake_case" 
